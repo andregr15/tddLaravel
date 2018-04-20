@@ -15,7 +15,7 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testHomeResponseStatus()
     {
         $response = $this->get('/');
 
@@ -31,5 +31,13 @@ class ExampleTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email'=>'teste@teste.com.br'
         ]);
+    }
+
+    public function testAuthentication(){
+        $user = factory(\App\User::class)->create();
+
+        $response = $this->actingAs($user)->get('/home');
+
+        $response->assertStatus(200);
     }
 }
